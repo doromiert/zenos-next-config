@@ -9,6 +9,11 @@ creative/development applications, Docker/Libvirt, Steam/ALVR/VR overlays,
 printer and Logitech support, current Codex CLI/Desktop, Jupiter and Select for
 Figma. ZeroBridge is omitted. System and user Flatpaks retain their scopes.
 Yuzu uses the cached NixOS 23.11 package instead of the discontinued Flatpak.
+NZPortable is provided by the native package `pkgs.gay.nzp.nzportable`
+(category view `pkgs.byCategories.apps.gaming.nzportable`), replacing a manual
+NZP restore. It builds from pinned existing upstream engine, QuakeC, and assets,
+plus the official compiled-map release asset; no new repository or vendored
+maps are required.
 
 Setup replaces `hardware.zcfg`, `graphics.zcfg`, and `drives.zcfg` with the new
 machine’s hardware and the partitions selected in the installer. The committed

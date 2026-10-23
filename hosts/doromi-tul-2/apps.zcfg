@@ -13,6 +13,7 @@ system.packages = {
   byCategories.apps.development.prettier = true;
   byCategories.apps.development.python.pip = true;
   byCategories.apps.gaming.emulators.yuzu-mainline = true;
+  byCategories.apps.gaming.nzportable = true;
   byCategories.apps.gaming.prism-launcher = true;
   byCategories.apps.gaming.uzdoom = true;
   byCategories.apps.graphics.grim = true;
