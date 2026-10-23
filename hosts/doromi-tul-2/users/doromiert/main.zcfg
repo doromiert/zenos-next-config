@@ -696,7 +696,7 @@ users.doromiert.programs.nixcord = {
 users.doromiert.legacy.homeManager = {
   programs.pwamaker = {
     enable = true;
-    firefoxGnomeTheme = $pkgs.theming.apps.firefox-gnome.src;
+    firefoxGnomeTheme = $pkgs.byCategories.theming.apps.firefox-gnome.src;
 
     # [NEW] Enable the internal Dispatcher
     dispatcher = {

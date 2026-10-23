@@ -29,19 +29,19 @@ desktops.gnome = {
   tweaks.firefox-theming.enable = true;
 };
 system.packages = {
-  theming.apps.adw-gtk3 = true;
-  theming.cursors.google-dot = true;
-  theming.icons.adwaita-hacks = true;
-  theming.fonts.zero.regular = true;
-  theming.fonts.zero.mono-thin = true;
+  byCategories.theming.apps.adw-gtk3 = true;
+  byCategories.theming.cursors.google-dot = true;
+  byCategories.theming.icons.adwaita-hacks = true;
+  byCategories.theming.fonts.zero.regular = true;
+  byCategories.theming.fonts.zero.mono-thin = true;
 };
 users.doromiert.legacy.homeManager = {
   gtk = {
     enable = true;
-    theme = { name = "adw-gtk3-dark"; package = $pkgs.theming.apps.adw-gtk3; };
-    iconTheme = { name = "Adwaita-hacks"; package = $pkgs.theming.icons.adwaita-hacks; };
-    cursorTheme = { name = "GoogleDot-Black"; size = 24; package = $pkgs.theming.cursors.google-dot; };
+    theme = { name = "adw-gtk3-dark"; package = $pkgs.byCategories.theming.apps.adw-gtk3; };
+    iconTheme = { name = "Adwaita-hacks"; package = $pkgs.byCategories.theming.icons.adwaita-hacks; };
+    cursorTheme = { name = "GoogleDot-Black"; size = 24; package = $pkgs.byCategories.theming.cursors.google-dot; };
     font = { name = "Atkinson Hyperlegible Next"; size = 11; package = $pkgs.legacy.atkinson-hyperlegible-next; };
   };
-  home.pointerCursor = { name = "GoogleDot-Black"; size = 24; package = $pkgs.theming.cursors.google-dot; gtk.enable = true; x11.enable = true; };
+  home.pointerCursor = { name = "GoogleDot-Black"; size = 24; package = $pkgs.byCategories.theming.cursors.google-dot; gtk.enable = true; x11.enable = true; };
 };
