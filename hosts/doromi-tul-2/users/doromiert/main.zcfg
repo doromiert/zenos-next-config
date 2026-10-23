@@ -1,8 +1,1060 @@
-_import "./flatpaks.zcfg";
-_import "./shortcuts.zcfg";
-_import "./applications.zcfg";
-_import "./webapps.zcfg";
-_import "./shell.zcfg";
+
+# flatpaks
+# Keep user-scoped apps separate from system Flathub installations.
+users.doromiert.services.flatpak = {
+  enable = true;
+  uninstallUnmanaged = false;
+  remotes = [ { name = "flathub"; location = "https://dl.flathub.org/repo/flathub.flatpakrepo"; } ];
+  packages = [
+    "app.drey.Elastic"
+    "com.github.maoschanz.DynamicWallpaperEditor"
+    "com.qzandronum.Q-Zandronum"
+    "com.rustdesk.RustDesk"
+    "com.zandronum.Zandronum"
+    "de.haeckerfelix.Fragments"
+    "dev.geopjr.Calligraphy"
+    "dev.vieb.Vieb"
+    "es.danirod.Cartero"
+    "io.github.BlazingHotCode.CircuitSim"
+    "io.github.lainsce.DotMatrix"
+    "org.libreoffice.LibreOffice"
+    "org.vinegarhq.Sober"
+    "re.sonny.Workbench"
+  ];
+};
+
+
+# shortcuts
+users.doromiert.legacy.homeManager = {
+
+  dconf.settings = {
+    # --- System Shortcuts ---
+    "org/gnome/desktop/wm/keybindings" = {
+      close = [ "<Super>q" ];
+      # [RESIZING] Updated to Ctrl+Shift+C per user request
+      toggle-maximized = [ "<Super>w" ];
+      minimize = [ "<Super>Page_Down" ];
+      activate-window-menu = [ "<Alt>space" ];
+      begin-resize = [ "<Control><Super>c" ];
+      # Workspaces (HJKL)
+      switch-to-workspace-left = [ "<Super><Control>h" ];
+      switch-to-workspace-right = [ "<Super><Control>l" ];
+      move-to-workspace-left = [ "<Super><Control><Shift>h" ];
+      move-to-workspace-right = [ "<Super><Control><Shift>l" ];
+
+      # Monitors (HJKL)
+      move-to-monitor-left = [ "<Super><Alt>h" ];
+      move-to-monitor-right = [ "<Super><Alt>l" ];
+
+      # Input
+      switch-input-source = [ "<Super>space" ];
+      switch-input-source-backward = [ "<Shift><Super>space" ];
+    };
+
+    # [CONFLICT REMOVAL] Disable side tiling
+    "org/gnome/mutter/keybindings" = {
+      toggle-tiled-left = [ ];
+      toggle-tiled-right = [ ];
+    };
+
+    # --- Custom Keybindings (Apps) ---
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      # [FIX] Remap Lock Screen to avoid conflict with <Super>l (Focus Right)
+
+      # [CONFLICT REMOVAL]
+      # Disable default Gnome tiling keys to prevent interference with Forge
+      maximize = [ ];
+      unmaximize = [ ];
+
+      # Workspaces (HJKLonflict with <Super>l (Focus Right)
+      screensaver = [ "<Super>Escape" ];
+
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+      ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "Nautilus";
+      command = "nautilus --new-window";
+      binding = "<Super>e";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      name = "terminal";
+      command = "kitty";
+      binding = "<Super>t";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      name = "Buffer";
+      command = "flatpak run org.gnome.gitlab.cheywood.Buffer";
+      binding = "<Super>b";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      name = "System Resources";
+      command = "resources";
+      binding = "<Control><Shift>Escape";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
+      name = "Zane dummy";
+      command = "echo 'boioioing'";
+      binding = "<Super>slash";
+    };
+
+    # --- Extensions ---
+
+    # Clipboard Indicator
+    "org/gnome/shell/extensions/clipboard-indicator" = {
+      toggle-menu = [ "<Control><Super>v" ];
+    };
+
+    # Forge (Tiling) - HJKLified
+    "org/gnome/shell/extensions/forge/keybindings" = {
+      con-split-horizontal = [ ];
+      con-split-layout-toggle = [ ];
+      con-split-vertical = [ ];
+      con-stacked-layout-toggle = [ ];
+      con-tabbed-layout-toggle = [ ];
+      con-tabbed-showtab-decoration-toggle = [ ];
+      focus-border-toggle = [ ];
+      prefs-open = [ ];
+      prefs-tiling-toggle = [ ];
+
+      # Focus (HJKL)
+      window-focus-left = [ "<Super>h" ];
+      window-focus-down = [ "<Super>j" ];
+      window-focus-up = [ "<Super>k" ];
+      window-focus-right = [ "<Super>l" ];
+
+      window-gap-size-decrease = [ ];
+      window-gap-size-increase = [ ];
+
+      # Move (Shift + HJKL)
+      window-move-left = [ "<Shift><Super>h" ];
+      window-move-down = [ "<Shift><Super>j" ];
+      window-move-up = [ "<Shift><Super>k" ];
+      window-move-right = [ "<Shift><Super>l" ];
+
+      window-resize-bottom-decrease = [ ];
+      window-resize-bottom-increase = [ ];
+      window-resize-left-decrease = [ ];
+      window-resize-left-increase = [ ];
+      window-resize-right-decrease = [ ];
+      window-resize-right-increase = [ ];
+      window-resize-top-decrease = [ ];
+      window-resize-top-increase = [ ];
+      window-snap-center = [ ];
+      window-snap-one-third-left = [ ];
+      window-snap-one-third-right = [ ];
+      window-snap-two-third-left = [ ];
+      window-snap-two-third-right = [ ];
+      window-swap-down = [ ];
+      window-swap-last-active = [ ];
+      window-swap-left = [ ];
+      window-swap-right = [ ];
+      window-swap-up = [ ];
+      window-toggle-always-float = [ "<Super><Shift>f" ];
+      window-toggle-float = [ "<Super>f" ];
+      workspace-active-tile-toggle = [ ];
+    };
+  };
+
+  # --- VS Code Keybindings ---
+  programs.vscode.profiles.default.keybindings = [
+    # NAVIGATION
+    {
+      key = "ctrl+shift+a";
+      command = "workbench.action.terminal.focusNext";
+      when = "terminalFocus";
+    }
+    {
+      key = "ctrl+shift+b";
+      command = "workbench.action.terminal.focusPrevious";
+      when = "terminalFocus";
+    }
+    {
+      key = "ctrl+shift+j";
+      command = "workbench.action.togglePanel";
+    }
+    {
+      key = "ctrl+shift+n";
+      command = "workbench.action.terminal.new";
+      when = "terminalFocus";
+    }
+    {
+      key = "ctrl+shift+w";
+      command = "workbench.action.terminal.kill";
+      when = "terminalFocus";
+    }
+    # FILE TREE
+    {
+      command = "workbench.action.toggleSidebarVisibility";
+      key = "ctrl+e";
+    }
+    {
+      command = "workbench.files.action.focusFilesExplorer";
+      key = "ctrl+e";
+      when = "editorTextFocus";
+    }
+    {
+      key = "n";
+      command = "explorer.newFile";
+      when = "filesExplorerFocus && !inputFocus";
+    }
+    {
+      command = "renameFile";
+      key = "r";
+      when = "filesExplorerFocus && !inputFocus";
+    }
+    {
+      key = "shift+n";
+      command = "explorer.newFolder";
+      when = "explorerViewletFocus";
+    }
+
+    {
+      key = "ctrl+w";
+      command = "workbench.action.closeActiveEditor";
+    }
+    {
+      command = "deleteFile";
+      key = "d";
+      when = "filesExplorerFocus && !inputFocus";
+    }
+    # EXTRA
+    {
+      key = "ctrl+shift+5";
+      command = "editor.emmet.action.matchTag";
+    }
+    {
+      # [FIXED] Changed to avoid conflict with Undo (Ctrl+Z)
+      key = "ctrl+alt+z";
+      command = "workbench.action.toggleZenMode";
+    }
+  ];
+};
+
+
+# applications
+# Personal editor and Discord preferences from zenos-old.
+users.doromiert.programs.vscode = {
+        # The Vim Addon (User Preference)
+        extensions = [
+          $pkgs.legacy.vscode-extensions.vscodevim.vim
+          # brandonkirbyson.vscode-animations
+        ];
+
+        # Merged from settings.json
+        profiles.default.userSettings = {
+          "terminal.integrated.inheritEnv" = true;
+          # Existing Nix overrides
+          "vim.useSystemClipboard" = true;
+          "vim.hlsearch" = true;
+          "editor.selectionClipboard" = false;
+          # [ADDED] Visual Navigation & Feedback Plugins
+          "vim.easymotion" = true;
+          "vim.sneak" = true;
+          "vim.surround" = true; # Essential for cs"' etc.
+          "vim.commentary" = true; # gcc to comment
+          "vim.indentObject" = true; # vii to select indentation block
+
+          "editor.cursorSmoothCaretAnimation" = "on";
+          "editor.cursorBlinking" = "smooth";
+          # "editor.cursorStyle" = "block";
+          "terminal.integrated.cursorStyle" = "block";
+          "terminal.integrated.cursorBlinking" = true;
+          "terminal.integrated.gpuAcceleration" = "on";
+
+          # [RECOMMENDED] Advanced Movements & Visuals
+          "vim.camelCaseMotion.enable" = true; # Move inside CamelCase words
+          "vim.smartRelativeLine" = true; # Absolute in Insert, Relative in Normal
+          "vim.statusBarColorControl" = true; # Change bar color based on mode
+          "vim.statusBarColors.normal" = "#005f5f";
+          "vim.statusBarColors.insert" = "#5f0000";
+          "vim.statusBarColors.visual" = "#5f005f";
+
+          # Highlight yanked text (Neovim style)
+          "vim.highlightedyank.enable" = true;
+          "vim.highlightedyank.duration" = 200;
+
+          # JSON Configs
+          "editor.suggest.insertMode" = "replace";
+          "editor.linkedEditing" = true;
+          "javascript.updateImportsOnFileMove.enabled" = "always";
+          "extensions.autoUpdate" = false; # Nix manages these anyway
+          "extensions.autoCheckUpdates" = false;
+          "workbench.statusBar.visible" = true;
+          "editor.minimap.enabled" = false;
+          "breadcrumbs.enabled" = false;
+
+          "update.showReleaseNotes" = false;
+          "workbench.activityBar.visible" = true;
+          "zenMode.hideLineNumbers" = false;
+          "zenMode.hideTabs" = false;
+          "editor.lineNumbers" = "relative";
+
+          "vim.leader" = "<Space>";
+
+          # Vim Keybindings (Kept in settings as they are plugin-specific settings)
+          "vim.normalModeKeyBindingsNonRecursive" = [
+            # NAVIGATION
+            # switch b/w buffers
+            # Change these in vim.normalModeKeyBindingsNonRecursive
+            {
+              before = [
+                "<leader>"
+                "h"
+              ]; # instead of <S-h>
+              commands = [ ":bprevious" ];
+            }
+            {
+              before = [
+                "<leader>"
+                "l"
+              ]; # instead of <S-l>
+              commands = [ ":bnext" ];
+            }
+
+            # splits
+            {
+              before = [
+                "leader"
+                "v"
+              ];
+              commands = [ ":vsplit" ];
+            }
+            {
+              before = [
+                "leader"
+                "s"
+              ];
+              commands = [ ":split" ];
+            }
+
+            # panes
+            {
+              before = [
+                "leader"
+                "h"
+              ];
+              commands = [ "workbench.action.focusLeftGroup" ];
+            }
+            {
+              before = [
+                "leader"
+                "j"
+              ];
+              commands = [ "workbench.action.focusBelowGroup" ];
+            }
+            {
+              before = [
+                "leader"
+                "k"
+              ];
+              commands = [ "workbench.action.focusAboveGroup" ];
+            }
+            {
+              before = [
+                "leader"
+                "l"
+              ];
+              commands = [ "workbench.action.focusRightGroup" ];
+            }
+            # NICE TO HAVE
+            {
+              before = [
+                "leader"
+                "w"
+              ];
+              commands = [ ":w!" ];
+            }
+            {
+              before = [
+                "leader"
+                "q"
+              ];
+              commands = [ ":q!" ];
+            }
+            {
+              before = [
+                "leader"
+                "x"
+              ];
+              commands = [ ":x!" ];
+            }
+            {
+              before = [
+                "["
+                "d"
+              ];
+              commands = [ "editor.action.marker.prev" ];
+            }
+            {
+              before = [
+                "]"
+                "d"
+              ];
+              commands = [ "editor.action.marker.next" ];
+            }
+            {
+              before = [
+                "<leader>"
+                "c"
+                "a"
+              ];
+              commands = [ "editor.action.quickFix" ];
+            }
+            {
+              before = [
+                "leader"
+                "f"
+              ];
+              commands = [ "workbench.action.quickOpen" ];
+            }
+            {
+              before = [
+                "leader"
+                "p"
+              ];
+              commands = [ "editor.action.formatDocument" ];
+            }
+            {
+              before = [
+                "g"
+                "h"
+              ];
+              commands = [ "editor.action.showDefinitionPreviewHover" ];
+            }
+          ];
+
+          "vim.visualModeKeyBindings" = [
+            # Stay in visual mode while indenting
+            {
+              before = [ "<" ];
+              commands = [ "editor.action.outdentLines" ];
+            }
+            {
+              before = [ ">" ];
+              commands = [ "editor.action.indentLines" ];
+            }
+            # Move selected lines while staying in visual mode
+            # {
+            #   before = [ "J" ];
+            #   commands = [ "editor.action.moveLinesDownAction" ];
+            # }
+            # {
+            #   before = [ "K" ];
+            #   commands = [ "editor.action.moveLinesUpAction" ];
+            # }
+            # toggle comment selection
+            {
+              before = [
+                "leader"
+                "c"
+              ];
+              commands = [ "editor.action.commentLine" ];
+            }
+          ];
+
+          "[typescriptreact]" = {
+            "editor.defaultFormatter" = "esbenp.prettier-vscode";
+          };
+          "go.toolsManagement.autoUpdate" = true;
+          "[typescript]" = {
+            "editor.defaultFormatter" = "esbenp.prettier-vscode";
+          };
+          "[jsonc]" = {
+            "editor.defaultFormatter" = "esbenp.prettier-vscode";
+          };
+        };
+      };
+users.doromiert.programs.nixcord = {
+  discord.vencord.package = $pkgs.legacy.vencord;
+  vesktop.package = $pkgs.legacy.vesktop;
+        enable = true;
+
+        # [SWITCHED] Using Vesktop instead of official Discord
+        # Better Wayland support, screen sharing with audio, and performance.
+
+        discord.enable = false;
+        vesktop = {
+          enable = true;
+          autoscroll.enable = true;
+          state = {
+            "firstLaunch" = false;
+            "windowBounds" = {
+              "x" = 0;
+              "y" = 0;
+              "width" = 0;
+              "height" = 0;
+            };
+          };
+          settings = {
+            # "hardwareVideoAcceleration" = true;
+            "customTitleBar" = true;
+            "staticTitle" = false;
+          };
+        };
+
+        config = {
+          useQuickCss = true;
+          disableMinSize = true;
+
+          # [FIX] Load themes into the menu as well, just in case QuickCSS fails.
+          themeLinks = [
+            "https://codeberg.org/ridge/Discord-Adblock/raw/branch/main/discord-adblock.css"
+            # "https://raw.githubusercontent.com/ricewind012/discord-gnome-theme/master/gnome.theme.css"
+            # ↑ broken, hopefully replaced by gord soon
+          ];
+
+          # Global Vencord Settings
+          enabledThemes = [
+            "discord-adblock.css"
+            "gnome.theme.css"
+          ];
+
+          # Highly Practical Plugin Configuration [p13.9 focus]
+          plugins = {
+            # [UPSTREAM WORKAROUND] nixcord declares vcNarrator.voice as
+            # `nullOr str` with no default, unlike every sibling setting, but
+            # still serializes the whole plugin table into settings.json. That
+            # reads an undefined option and aborts evaluation, even though we
+            # never enable the plugin. Defining it explicitly unblocks eval.
+            vcNarrator.voice = null;
+
+            # Essentials
+            fakeNitro = {
+              enable = true;
+              transformEmojis = true;
+            };
+
+            themeAttributes.enable = true;
+
+            # UI Improvements
+            betterFolders = {
+              enable = false;
+              sidebar = false;
+              sidebarAnim = true;
+
+            };
+            memberCount.enable = true;
+            showHiddenThings.enable = true;
+            PinDMs = {
+              enable = true;
+              canCollapseDmSection = true;
+              pinOrder = 0;
+
+              # Converted from JSON export
+              # Note: Keys beginning with numbers must be quoted in Nix
+              userBasedCategoryList = {
+                "786127059020808192" = [
+                  {
+                    id = "pxjb5vmmgvq";
+                    name = "anaxort";
+                    color = 3447003;
+                    collapsed = false;
+                    channels = [ "1163390615875235850" ];
+                  }
+                  {
+                    id = "pw400h4v3r8";
+                    name = "pyxaxerei";
+                    color = 10181046;
+                    collapsed = false;
+                    channels = [
+                      "932002355006824518"
+                      "1251984601346474137"
+                      "1076666124596420658"
+                      "1235474431854247947"
+                      "1317442836534136832"
+                      "1406532912115093597"
+                      "1373419992690852033"
+                      "1436806723032842282"
+                      "950102506892042280"
+                      "1370491641739218956"
+                      "1068059647606521897"
+                      "1002319154155622410"
+                      "932155260695379988"
+                      "853881398985490443"
+                      "853859473462394890"
+                      "1007987169777950750"
+                      "1257274200683446304"
+                      "1169986857422028850"
+                      "1125888401720225864"
+                      "932680448784621658"
+                      "996098799418232902"
+                      "1448774106609881143"
+                      "1034497174853128283"
+                      "1446931065846366320"
+                      "1385202673149808673"
+                      "1362263213546147952"
+                      "931433605740240957"
+                      "1344023312254242826"
+                      "1265042253399855134"
+                      "1442531824663396394"
+                      "1080007672545415238"
+                      "993870226259193927"
+                      "1375899970053476554"
+                      "962773292857573458"
+                      "1438120331893149796"
+                      "1320116227359641620"
+                      "1436998598314295370"
+                      "1056652715234701353"
+                      "1065671896017928233"
+                      "1435403641396920423"
+                      "1435038376842760263"
+                      "1149745026650353740"
+                      "1432913066550493316"
+                      "1361256971365519513"
+                      "1377624366581284946"
+                      "1383425235495157860"
+                      "1427872016089874516"
+                      "1425613934219628717"
+                      "1378452184819302534"
+                      "1134586397802635348"
+                      "1161389907844014161"
+                      "1408784983677735035"
+                    ];
+                  }
+                  {
+                    id = "giad3o5lhl9";
+                    name = "kulupei";
+                    color = 15277667;
+                    collapsed = false;
+                    channels = [
+                      "1138946738695180288"
+                      "1396015342270025749"
+                      "1320177024685576242"
+                      "1299480215503896609"
+                    ];
+                  }
+                  {
+                    id = "4f5sbjgmrg9";
+                    name = "wtx";
+                    color = 3066993;
+                    collapsed = true;
+                    channels = [
+                      "1451158271871291585"
+                      "1073688149999501312"
+                      "1093616425198956655"
+                      "942068119499849748"
+                      "1184487132560101396"
+                      "1433110846690824262"
+                      "1412166821091479704"
+                    ];
+                  }
+                  {
+                    id = "ezzyxp82irr";
+                    name = "work-ish";
+                    color = 10070709;
+                    collapsed = true;
+                    channels = [ "1222475248792895550" ];
+                  }
+                ];
+              };
+            };
+
+            # [REMOVED] 'noMinSize' is not supported by current Nixcord version.
+            # Enable this manually in Vencord settings -> Plugins if needed.
+
+            # Privacy & Utility
+            callTimer.enable = true;
+            ClearURLs.enable = true;
+            CopyUserURLs.enable = true;
+
+            # Performance/Fixes
+            # vencordToolbox.enable = true;
+            webKeybinds.enable = true;
+
+            # [NOTE] Often redundant on Vesktop (it has native fixes), but harmless to keep.
+            webScreenShareFixes.enable = true;
+
+            youtubeAdblock.enable = true;
+
+            # Custom RPC
+
+          };
+        };
+
+        # [FIX] Added quotes to URLs to ensure CSS validity
+        quickCss = ''
+          /* Discord AdBlock */
+          @import url("https://codeberg.org/ridge/Discord-Adblock/raw/branch/main/discord-adblock.css");
+
+          /* Discord Gnome Theme */
+          @import url("https://raw.githubusercontent.com/ricewind012/discord-gnome-theme/main/dist/discord-gnome-theme.theme.css");
+        '';
+      };
+
+
+# webapps
+users.doromiert.legacy.homeManager = {
+  programs.pwamaker = {
+    enable = true;
+    firefoxGnomeTheme = $pkgs.theming.apps.firefox-gnome.src;
+
+    # [NEW] Enable the internal Dispatcher
+    dispatcher = {
+      enable = true;
+      fallbackBrowser = "firefox"; # Matches your global firefox binary name
+    };
+
+    apps = {
+      instagram = {
+        id = "instagram";
+        name = "Instagram";
+        url = "https://www.instagram.com";
+        icon = "applications-photography";
+
+        extensions = [
+          { id = "uBlock0@raymondhill.net"; url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"; }
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Video"
+          "AudioVideo"
+        ];
+        keywords = [
+          "video"
+          "music"
+          "insta"
+          "meta"
+          "facebook"
+          "stream"
+        ];
+        # Optional: Force YouTube links to open here too
+        openUrls = [
+          "instagram.com"
+        ];
+      };
+
+      youtube = {
+        id = "youtube";
+        name = "YouTube";
+        url = "https://www.youtube.com";
+        icon = "youtube";
+
+        # Custom Search Engine
+        search = {
+          name = "YouTube";
+          url = "https://www.youtube.com/results?search_query={searchTerms}";
+        };
+
+        extensions = [
+          { id = "uBlock0@raymondhill.net"; url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"; }
+          { id = "sponsorBlocker@ajay.app"; url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi"; }
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+          { id = "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}"; url = "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Video"
+          "AudioVideo"
+        ];
+        keywords = [
+          "video"
+          "music"
+          "google"
+          "stream"
+        ];
+        # Optional: Force YouTube links to open here too
+        openUrls = [
+          "youtube.com"
+          "youtu.be"
+        ];
+      };
+
+      github = {
+        id = "github";
+        name = "GitHub";
+        url = "https://github.com";
+        icon = "github";
+
+        # Custom Search Engine
+        search = {
+          name = "GitHub";
+          url = "https://github.com/search?q={searchTerms}";
+        };
+        layoutStart = [
+          "home"
+          "back"
+          "forward"
+          "reload"
+        ];
+
+        extensions = [
+          { id = "uBlock0@raymondhill.net"; url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"; }
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Development"
+        ];
+        keywords = [
+          "git"
+          "github"
+          "gh"
+          "code"
+        ];
+        openUrls = [
+          "github.com"
+        ];
+      };
+
+      # figma = {
+      #   id = "figma";
+      #   name = "Select for Figma";
+      #   url = "https://www.figma.com";
+      #   icon = "select-for-figma";
+
+      #   # Custom Search Engine (Community)
+      #   search = {
+      #     name = "Figma Community";
+      #     url = "https://www.figma.com/community/search?query={searchTerms}&resource_type=mixed&editor_type=all&price=all&sort_by=relevancy&creators=all";
+      #   };
+
+      #   extensions = [
+      #     { id = "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}"; url = "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi"; }
+      #     { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+      #   ];
+      #   categories = [
+      #     "Graphics"
+      #     "Development"
+      #   ];
+      #   keywords = [
+      #     "design"
+      #     "ui"
+      #     "ux"
+      #     "vector"
+      #   ];
+      #   # Split layout around the tabs (which are now implicit in the center)
+      #   layoutStart = [
+      #     "home"
+      #     "reload"
+      #   ];
+      #   layoutEnd = [
+      #     "addons"
+      #   ];
+      #   openUrls = [
+      #     "figma.com"
+      #   ];
+      # };
+
+      twitter = {
+        id = "twitter";
+        name = "Twitter";
+        url = "https://x.com";
+        icon = "twitter";
+
+        # Custom Search Engine
+        search = {
+          name = "Twitter";
+          url = "https://x.com/search?q={searchTerms}&src=typed_query";
+        };
+
+        extensions = [
+          { id = "uBlock0@raymondhill.net"; url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"; }
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Chat"
+        ];
+        keywords = [
+          "social"
+          "media"
+          "x"
+        ];
+        # [NEW] This captures x.com and twitter.com links!
+        openUrls = [
+          "x.com"
+          "twitter.com"
+        ];
+        # Split layout around the tabs
+        layoutStart = [
+          "home"
+          "back"
+          "forward"
+          "reload"
+        ];
+        layoutEnd = [
+          "addons"
+        ];
+      };
+
+      gemini = {
+        id = "gemini";
+        name = "Gemini";
+        url = "https://gemini.google.com";
+        icon = "internet-chat";
+        # templateProfile = baseProfile;
+        extensions = [
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Office"
+          "X-ArtificialIntelligence"
+        ];
+        keywords = [
+          "ai"
+          "chat"
+          "llm"
+          "google"
+        ];
+        openUrls = [
+          "gemini.google.com"
+          "aistudio.google.com"
+        ];
+      };
+
+      claude = {
+        id = "claude";
+        name = "Claude";
+        url = "https://claude.ai";
+        icon = "internet-chat";
+        # templateProfile = baseProfile;
+        extensions = [
+          { id = "claudesona@n8python"; url = "https://addons.mozilla.org/firefox/downloads/file/4795441/claudesona_emotion_sprites-1.0.1.xpi"; }
+          { id = "keepassxc-browser@keepassxc.org"; url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"; }
+        ];
+        categories = [
+          "Network"
+          "Office"
+          "X-ArtificialIntelligence"
+        ];
+        keywords = [
+          "ai"
+          "chat"
+          "llm"
+          "anthropic"
+        ];
+        openUrls = [
+          "claude.ai"
+        ];
+      };
+
+      syncthing = {
+        id = "syncthing";
+        name = "Syncthing";
+        url = "http://localhost:8384";
+        icon = "syncthing";
+        # templateProfile = baseProfile;
+        categories = [
+          "System"
+          "FileTransfer"
+        ];
+        keywords = [
+          "sync"
+          "backup"
+          "p2p"
+        ];
+        openUrls = [
+          "localhost:8384"
+          "127.0.0.1:8384"
+        ];
+      };
+    };
+  };
+};
+
+
+# shell
+users.doromiert.legacy.homeManager = {
+    xdg.userDirs = {
+      enable = true;
+      createDirectories = true;
+
+      # Standard XDG paths
+      download = "/Users/doromiert/Downloads";
+      documents = "/Users/doromiert/Documents";
+      desktop = "/Users/doromiert/Desktop";
+
+      # Custom paths go into extraConfig
+      extraConfig = {
+        FUNNY = "/Users/doromiert/Funny";
+        PROJECTS = "/Users/doromiert/Projects";
+        THREED = "/Users/doromiert/3D";
+        ANDROID = "/Users/doromiert/Android";
+        AI = "/Users/doromiert/AI";
+        APPS_SCRIPTS = "/Users/doromiert/Apps & Scripts";
+        DOOM = "/Users/doromiert/Doom";
+        RIFT = "/Users/doromiert/Rift";
+        RANDOM = "/Users/doromiert/Random";
+        PASSWORDS = "/Users/doromiert/Passwords";
+      };
+    };
+
+    programs = {
+
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
+      zsh = {
+
+        enable = true;
+        enableCompletion = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
+
+        # [P13.9] User-Specific Tools
+        # Removed CD shortcuts as Zoxide handles navigation
+        shellAliases = {
+          # Git Rapid-Fire
+          g = "git";
+          ga = "git add";
+          gaa = "git add .";
+          gc = "git commit -m";
+          gs = "git status";
+          gp = "git push";
+          gl = "git log --oneline --graph --decorate";
+
+          # Nix / Direnv
+          da = "direnv allow";
+          dr = "direnv reload";
+
+          # Networking
+          myip = "curl ifconfig.me";
+        };
+
+        history.size = 10000;
+
+plugins = [ { name = "powerlevel10k"; src = $pkgs.legacy.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; } ];
+
+        initContent = ''
+          bindkey "''${key[Up]}" up-line-or-search
+          bindkey "''${key[Down]}" down-line-or-search
+        '';
+      };
+
+      zoxide = {
+
+        enable = true;
+        enableZshIntegration = true;
+      };
+
+      git = {
+        enable = true;
+        settings = {
+          user = {
+            name = "doromiert";
+            email = "doromiert@gmail.com";
+          };
+          pull.rebase = false;
+          init.defaultBranch = "main";
+        };
+      };
+    };
+};
+
 users.doromiert = {
   profile = {
     normalUser = true; homeDirectory = "/Users/doromiert"; displayName = "doromiert"; uid = 1000;
