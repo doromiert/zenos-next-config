@@ -1,0 +1,92 @@
+# Personal applications; service-backed packages are selected by their modules.
+system.packages = {
+  apps.ai.llama-cpp-rocm = true;
+  apps.ai.opencode = true;
+  apps.browsers.hyperbeam = true;
+  apps.communication.gajim = true;
+  apps.development.basedpyright = true;
+  apps.development.ccls = true;
+  apps.development.gcc = true;
+  apps.development.github-cli = true;
+  apps.development.neovim = true;
+  apps.development.nodejs = true;
+  apps.development.prettier = true;
+  apps.development.python.pip = true;
+  apps.gaming.emulators.yuzu-mainline = true;
+  apps.gaming.prism-launcher = true;
+  apps.gaming.uzdoom = true;
+  apps.graphics.grim = true;
+  apps.system.appimage-run = true;
+  apps.system.dbus = true;
+  apps.system.libnotify = true;
+  apps.system.nautilus-python = true;
+  apps.system.zenity = true;
+  apps.video.ffmpeg = true;
+  apps.video.tubefin = true;
+
+  apps.development.nixfmt = true;
+  apps.development.svelte-language-server = true;
+  apps.graphics.lorem = true;
+  apps.audio.eartag = true;
+  apps.audio.gapless = true;
+  apps.graphics.blender-hip = true;
+  apps.office.rnote = true;
+  apps.office.obsidian = true;
+  apps.development.nixd = true;
+  apps.development.android-tools = true;
+  apps.development.meson = true;
+  apps.development.ninja = true;
+  apps.development.scrcpy = true;
+  apps.development.unityhub = true;
+  apps.ai.claude-code = true;
+  apps.development.zed = true;
+  apps.development.vscode-css-languageserver = true;
+  apps.development.clang-tools = true;
+  apps.development.rust-analyzer = true;
+  apps.development.cargo = true;
+  apps.development.typescript-language-server = true;
+  apps.development.prettierd = true;
+  apps.development.pyright = true;
+  apps.development.ruff = true;
+  apps.development.gnome-builder-lsp = true;
+  apps.containers.docker-compose = true;
+  apps.virtualization.bridge-utils = true;
+  apps.networking.dnsmasq = true;
+  apps.virtualization.vde2 = true;
+  apps.virtualization.spice-vdagent = true;
+  apps.system.administration.solaar = true;
+  apps.gaming.emulators.ryubing-canary = true;
+  apps.communication.telegram-desktop = true;
+  apps.security.keepassxc = true;
+  apps.system.kitty = true;
+  apps.browsers.firefox = true;
+  apps.ai.codex = true;
+  apps.ai.codex-desktop = true;
+  apps.browsers.jupiter = true;
+  apps.graphics.select-for-figma = true;
+  apps.audio.swisstag = true;
+};
+system.flatpak = {
+  enable = true;
+  uninstallUnmanaged = false;
+  remotes = [ { name = "flathub"; location = "https://dl.flathub.org/repo/flathub.flatpakrepo"; } ];
+  update.auto = { enable = true; onCalendar = "weekly"; };
+  packages = [
+    "com.github.tchx84.Flatseal"
+    "com.obsproject.Studio"
+    "fr.natron.Natron"
+    "io.github.dzheremi2.lrcmake-gtk"
+    "io.github.nate_xyz.Paleta"
+    "io.github.nokse22.asciidraw"
+    "io.github.revisto.drum-machine"
+    "me.iepure.devtoolbox"
+    "org.ardour.Ardour"
+    "org.audacityteam.Audacity"
+    "org.gnome.Showtime"
+    "org.gnome.design.AppIconPreview"
+    "org.gnome.design.IconLibrary"
+    "org.gnome.design.Palette"
+    "org.kde.kdenlive"
+    "re.sonny.OhMySVG"
+  ];
+};

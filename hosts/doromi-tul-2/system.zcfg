@@ -1,0 +1,50 @@
+system = {
+  networking.manageConnections = true;
+  audio = { applications32Bit = true; realtimeScheduling = true; };
+  memory.zram = { enable = true; algorithm = "zstd"; memoryPercent = 50; priority = 100; };
+  hardware.mouseGestures = { enable = true; trigger = "BTN_FORWARD"; mouse = "/dev/input/by-id/usb-Logitech_USB_Receiver-if01-event-mouse"; user = "doromiert"; };
+  hardware = { amdOpenCL = true; logitechWireless = true; androidDebugging = true; kinect2 = true; };
+  packaging = { environmentExecutables = true; compatibilityLibraries = true; };
+  virtualization = {
+    libvirt = { enable = true; virtualTpm = true; runAsRoot = true; manager = true; socketNetworkTransport = true; startGuestsOnBoot = "ignore"; stopGuestsOnShutdown = "shutdown"; };
+    docker = { enable = true; rootless = false; exportSocket = true; storageDriver = "overlay2"; };
+    guest.spiceAgent = true;
+  };
+  printing = {
+    enable = true;
+    drivers = [ $pkgs.legacy.brlaser $pkgs.legacy.gutenprint ];
+    printers = [ { name = "Brother_HL-1210W"; deviceUri = "usb://Brother/HL-1210W%20series?serial=E76028K2N488127"; model = "drv:///brlaser.drv/br1210.ppd"; location = "USB"; } ];
+    defaultPrinter = "Brother_HL-1210W";
+  };
+};
+legacy = {
+  time.timeZone = "Europe/Warsaw";
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "pl_PL.UTF-8/UTF-8" ];
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "pl_PL.UTF-8"; LC_IDENTIFICATION = "pl_PL.UTF-8";
+    LC_MEASUREMENT = "pl_PL.UTF-8"; LC_MONETARY = "pl_PL.UTF-8";
+    LC_NAME = "pl_PL.UTF-8"; LC_NUMERIC = "pl_PL.UTF-8";
+    LC_PAPER = "pl_PL.UTF-8"; LC_TELEPHONE = "pl_PL.UTF-8"; LC_TIME = "pl_PL.UTF-8";
+  };
+  services.xserver.xkb.layout = "pl";
+  console.keyMap = "pl";
+  services.pipewire = { enable = true; alsa.enable = true; alsa.support32Bit = true; pulse.enable = true; };
+  programs.zsh.enable = true;
+  programs.direnv.enable = true;
+  services.openssh = { enable = true; settings.PermitRootLogin = "no"; };
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22 ];
+  hardware.graphics = { enable = true; enable32Bit = true; };
+};
+
+# Device policy carried over from doromi-tul-2.
+system.kernel = {
+  package = $pkgs.legacy.linuxPackages_zen.kernel;
+  availableInitrdModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  initrdModules = [ "amdgpu" "vfio_pci" "vfio" "vfio_iommu_type1" ];
+  modules = [ "kvm-amd" "msr" "bridge" "tap" ];
+  parameters = [ "initcall_blacklist=sysfb_init" "video=efifb:nobg" "amd_iommu=on" "iommu=pt" "preempt=full" "threadirqs" "amd_pstate=active" "amdgpu.mcbp=0" "usbcore.usbfs_memory_mb=64" ];
+};
+legacy.hardware.cpu.amd.updateMicrocode = true;
+legacy.powerManagement.cpuFreqGovernor = "performance";

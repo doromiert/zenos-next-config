@@ -1,0 +1,22 @@
+# Keep user-scoped apps separate from system Flathub installations.
+users.doromiert.services.flatpak = {
+  enable = true;
+  uninstallUnmanaged = false;
+  remotes = [ { name = "flathub"; location = "https://dl.flathub.org/repo/flathub.flatpakrepo"; } ];
+  packages = [
+    "app.drey.Elastic"
+    "com.github.maoschanz.DynamicWallpaperEditor"
+    "com.qzandronum.Q-Zandronum"
+    "com.rustdesk.RustDesk"
+    "com.zandronum.Zandronum"
+    "de.haeckerfelix.Fragments"
+    "dev.geopjr.Calligraphy"
+    "dev.vieb.Vieb"
+    "es.danirod.Cartero"
+    "io.github.BlazingHotCode.CircuitSim"
+    "io.github.lainsce.DotMatrix"
+    "org.libreoffice.LibreOffice"
+    "org.vinegarhq.Sober"
+    "re.sonny.Workbench"
+  ];
+};

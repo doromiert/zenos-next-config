@@ -1,0 +1,31 @@
+_import "./flatpaks.zcfg";
+_import "./shortcuts.zcfg";
+_import "./applications.zcfg";
+_import "./webapps.zcfg";
+_import "./shell.zcfg";
+users.doromiert = {
+  profile = {
+    normalUser = true; homeDirectory = "/Users/doromiert"; displayName = "doromiert"; uid = 1000;
+    groups = [ "wheel" "networkmanager" "lp" "video" "input" "libvirtd" "kvm" "docker" ];
+    loginShell = $pkgs.legacy.zsh;
+  };
+  services.vr = { enable = true; allowNetworkAccess = true; };
+  programs = {
+    zoxide = { enable = true; enableZshIntegration = true; };
+    keepassxc = { enable = true; settings = {
+      Browser = { Enabled = true; Firefox = true; SearchInAllDatabases = true; };
+      GUI = { MinimizeOnStartup = true; MinimizeToTray = true; OpenPreviousDatabasesOnStartup = true; };
+      PasswordGenerator.Length = 60;
+    }; };
+    firefox = { enable = true; nativeMessagingHosts = [ $pkgs.legacy.keepassxc ]; };
+    vscode.enable = true;
+  };
+  shell.aliases = {
+    g = "git"; ga = "git add"; gaa = "git add ."; gc = "git commit -m";
+    gs = "git status"; gp = "git push"; gl = "git log --oneline --graph --decorate";
+    da = "direnv allow"; dr = "direnv reload"; myip = "curl ifconfig.me";
+  };
+  legacy.homeManager = {
+    home.stateVersion = "25.11";
+  };
+};
