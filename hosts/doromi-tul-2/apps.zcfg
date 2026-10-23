@@ -64,7 +64,6 @@ system.packages = {
   byCategories.apps.ai.codex = true;
   byCategories.apps.ai.codex-desktop = true;
   byCategories.apps.browsers.jupiter = true;
-  byCategories.apps.graphics.select-for-figma = true;
   byCategories.apps.audio.swisstag = true;
 };
 system.flatpak = {

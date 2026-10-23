@@ -7,7 +7,8 @@ In the new ZenOS installer, choose **Online config**, enter
 This configuration declares only doromiert. It includes GNOME, the legacy
 creative/development applications, Docker/Libvirt, Steam/ALVR/VR overlays,
 printer and Logitech support, current Codex CLI/Desktop, Jupiter and Select for
-Figma. ZeroBridge is omitted. System and user Flatpaks retain their scopes.
+Figma. Select is enabled through `users.doromiert.programs.select-for-figma`; its
+nullable preferences preserve existing native app settings. ZeroBridge is omitted. System and user Flatpaks retain their scopes.
 Yuzu uses the cached NixOS 23.11 package instead of the discontinued Flatpak.
 NZPortable is provided by the native package `pkgs.gay.nzp.nzportable`
 (category view `pkgs.byCategories.apps.gaming.nzportable`), replacing a manual
