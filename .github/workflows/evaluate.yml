@@ -17,5 +17,6 @@ jobs:
         run: |
           NIX_BIN=$(nix build --no-link --print-out-paths --inputs-from . 'nixpkgs#nix^out')
           printf '%s/bin\n' "$NIX_BIN" >> "$GITHUB_PATH"
-      - name: Compile and evaluate doromi-tul-2
-        run: nix eval --raw --show-trace .#nixosConfigurations.doromi-tul-2.config.system.build.toplevel.drvPath
+      # The installer supplies disks and the initial password after loading this config.
+      - name: Compile doromi-tul-2 online config
+        run: nix build --no-link --show-trace .#nixosConfigurations.doromi-tul-2.config.system.build.zenosGeneratedConfig
