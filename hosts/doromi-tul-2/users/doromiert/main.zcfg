@@ -1063,6 +1063,7 @@ users.doromiert = {
   };
   services.vr = { enable = true; allowNetworkAccess = true; };
   programs = {
+    gnosis.enable = true;
     select-for-figma.enable = true;
     zoxide = { enable = true; enableZshIntegration = true; };
     keepassxc = { enable = true; settings = {
